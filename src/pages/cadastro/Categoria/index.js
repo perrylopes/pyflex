@@ -32,7 +32,9 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    const URL_TOP = 'https://pyfly.herokuapp.com/categoria';
+    const URL_TOP = window.location.hostname.includes('localhost')
+      ? 'http://localhost:8080/categoria'
+      : 'https://pyfly.herokuapp.com/categoria';
     fetch(URL_TOP)
       .then(async (respostaDoServidor) => {
         const resposta = await respostaDoServidor.json();
