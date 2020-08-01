@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormFeild from '../../../components/FormFeild';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
+import config from '../../../config';
+import categoriasRepository from '../../../repositories/categorias';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -10,32 +13,14 @@ function CadastroCategoria() {
     descricao: '',
     cor: '',
   };
+
+  const { values, handleChange, clearForm } = useForm(valoresIniciais);
   const [categorias, setCategotias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor,
-    });
-  }
-
-  // function handleChange(evt) {
-  //   const { getAttribute, value } = evt.target;
-  //   setValue(getAttribute('name'), value);
-  // }
-  function handleChange(evt) {
-    setValue(
-      evt.target.getAttribute('name'),
-      evt.target.value,
-    );
-  }
+  const history = useHistory();
 
   useEffect(() => {
-    const URL_TOP = window.location.hostname.includes('localhost')
-      ? 'http://localhost:8080/categoria'
-      : 'https://pyfly.herokuapp.com/categoria';
-    fetch(URL_TOP)
+    const URL_CATEGORIES = `${config.URL_BACKEND_TOP}/categorias`;
+    fetch(URL_CATEGORIES)
       .then(async (respostaDoServidor) => {
         const resposta = await respostaDoServidor.json();
         setCategotias([
@@ -66,21 +51,34 @@ function CadastroCategoria() {
     <PageDefault>
       <h1>
         Cadastro de Categoria :
-        {values.nome}
+        {values.titulo}
       </h1>
 
       <form
         onSubmit={function handleSubmit(evt) {
           evt.preventDefault();
           setCategotias([...categorias, values]);
-          setValues(valoresIniciais);
+          categoriasRepository.createCategory(
+            {
+              id: categorias.length + 1,
+              titulo: values.titulo,
+              cor: values.cor,
+              link_extra: {
+                text: values.descricao,
+                url: 'https://perrylopes.com.br/',
+              },
+            },
+          ).then(() => {
+            history.push('/cadastro/video');
+          });
+          clearForm();
         }}
       >
         <FormFeild
           label="Nome da Categoria"
           type="text"
-          value={values.nome}
-          name="nome"
+          value={values.titulo}
+          name="titulo"
           onChange={handleChange}
         />
 
@@ -111,7 +109,7 @@ function CadastroCategoria() {
       </form>
 
       <ul>
-        {categorias.map((categoria) => <li key={categoria.nome}>{categoria.nome}</li>)}
+        {categorias.map((categoria) => <li key={categoria.titulo}>{categoria.titulo}</li>)}
       </ul>
       <Link to="/">Ir para home</Link>
     </PageDefault>

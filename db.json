@@ -1,16 +1,42 @@
 {
-    "categoria": [
-        {
-            "id": 1,
-            "nome": "Front End",
-            "descricao": "Uma categoria bacanudassa",
-            "cor": "#cbd1ff"
-        },
-        {
-            "id": 2,
-            "nome": "Back End",
-            "descricao": "Uma categoria bacanudassa",
-            "cor": "#cbd1ff"
-        }
-    ]
+  "categorias": [
+    {
+      "id": 1,
+      "titulo": "Front End",
+      "cor": "#6BD1FF",
+      "link_extra": {
+        "text": "Formação de Front End na Alura",
+        "url": "https://perrylopes.com.br/"
+      }
+    },
+    {
+      "id": 2,
+      "titulo": "Back End",
+      "cor": "#2b5714",
+      "link_extra": {
+        "text": "Formação de Front End na Alura",
+        "url": "https://perrylopes.com.br/"
+      }
+    }
+  ],
+  "videos": [
+    {
+      "id": 1,
+      "categoriaId": 1,
+      "titulo": "SEO com React",
+      "url": "https://www.youtube.com/watch?v=c8mVlakBESE"
+    },
+    {
+      "titulo": "Video Padrão",
+      "url": "https://www.youtube.com/watch?v=IQiv1ES1PZQ",
+      "categoriaId": 1,
+      "id": 2
+    },
+    {
+      "titulo": "Video Padrão",
+      "url": "https://www.youtube.com/watch?v=IQiv1ES1PZQ",
+      "categoriaId": 1,
+      "id": 3
+    }
+  ]
 }
